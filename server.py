@@ -20,8 +20,9 @@ app.add_middleware(
 
 # Load voices for different languages
 voices = {
-    "english": PiperVoice.load("English/model.onnx"),
-    "hindi": PiperVoice.load("Hindi/model.onnx")
+    "english": PiperVoice.load("language/English/model.onnx"),
+    "hindi": PiperVoice.load("language/Hindi/model.onnx"),
+    "czech": PiperVoice.load("language/Czech/model.onnx")
 }
 
 class TTSRequest(BaseModel):
