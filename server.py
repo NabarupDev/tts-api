@@ -4,16 +4,31 @@ from piper import PiperVoice
 import base64
 import io
 import wave
+from typing import Optional
 
 app = FastAPI()
 
-voice = PiperVoice.load("model.onnx")
+# Load voices for different languages
+voices = {
+    "english": PiperVoice.load("English/model.onnx"),
+    "hindi": PiperVoice.load("Hindi/model.onnx")
+}
 
 class TTSRequest(BaseModel):
     text: str
+    language: Optional[str] = None
 
 @app.post("/tts")
 def tts(request: TTSRequest):
+    if request.language is None:
+        return {"languages": list(voices.keys())}
+    
+    lang = request.language.lower()
+    if lang not in voices:
+        return {"error": f"Invalid language: {request.language}. Available: {list(voices.keys())}"}
+    
+    voice = voices[lang]
+    
     # Use BytesIO to create WAV in memory
     wav_buffer = io.BytesIO()
     with wave.open(wav_buffer, 'wb') as wav_file:
