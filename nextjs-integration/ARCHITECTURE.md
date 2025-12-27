@@ -26,8 +26,8 @@ graph TD
 
     subgraph TTS["TTS Service - FastAPI"]
         H --> I[Piper TTS Model<br>ONNX]
-        I --> J[/tts/stream - Raw PCM]
-        I --> K[/ws/tts - WebSocket]
+        I --> J["tts/stream - Raw PCM"]
+        I --> K["ws/tts - WebSocket"]
     end
 
     subgraph Playback["Audio Playback"]
